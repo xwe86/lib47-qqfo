@@ -7,8 +7,6 @@ import cn.kizzzy.vfs.IFileSaver;
 import cn.kizzzy.vfs.IStrategy;
 import cn.kizzzy.vfs.IStreamable;
 import cn.kizzzy.vfs.ITree;
-import cn.kizzzy.vfs.ListNode;
-import cn.kizzzy.vfs.ListParameter;
 import cn.kizzzy.vfs.handler.GsoFileHandler;
 import cn.kizzzy.vfs.streamable.FileStreamable;
 import cn.kizzzy.vfs.tree.Leaf;
@@ -38,18 +36,13 @@ public class QqfoPackage extends PackageAdapter {
     }
     
     @Override
-    protected ListNode listImpl(String path, ListParameter param) throws Exception {
-        throw new UnsupportedOperationException("pkg package is not support list operation");
-    }
-    
-    @Override
     public boolean exist(String path) {
-        return tree.getFile(path) != null;
+        return tree.getLeaf(path) != null;
     }
     
     @Override
     protected Object loadImpl(String path, IFileLoader<?> loader) throws Exception {
-        Leaf<PkgFileItem> leaf = tree.getFile(path);
+        Leaf<PkgFileItem> leaf = tree.getLeaf(path);
         if (leaf == null) {
             return null;
         }
