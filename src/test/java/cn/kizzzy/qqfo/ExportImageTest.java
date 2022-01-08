@@ -4,14 +4,12 @@ import cn.kizzzy.helper.LogHelper;
 import cn.kizzzy.qqfo.helper.QqfoImgHelper;
 import cn.kizzzy.vfs.IPackage;
 import cn.kizzzy.vfs.ITree;
-import cn.kizzzy.vfs.Separator;
 import cn.kizzzy.vfs.handler.BufferedImageHandler;
 import cn.kizzzy.vfs.handler.PkgFileHandler;
 import cn.kizzzy.vfs.pack.FilePackage;
 import cn.kizzzy.vfs.pack.QqfoPackage;
 import cn.kizzzy.vfs.tree.IdGenerator;
 import cn.kizzzy.vfs.tree.Leaf;
-import cn.kizzzy.vfs.tree.LocalTree;
 import cn.kizzzy.vfs.tree.Node;
 import cn.kizzzy.vfs.tree.NodeComparator;
 import cn.kizzzy.vfs.tree.QqfoTreeBuilder;
@@ -39,10 +37,7 @@ public class ExportImageTest {
             return;
         }
         
-        ITree<PkgFileItem> tree = new LocalTree<>(
-            new QqfoTreeBuilder(pkgFile, new IdGenerator()).build(),
-            Separator.BACKSLASH_SEPARATOR_LOWERCASE
-        );
+        ITree<PkgFileItem> tree = new QqfoTreeBuilder(pkgFile, new IdGenerator()).build();
         
         IPackage qqfoVfs = new QqfoPackage(dataRoot, tree);
         

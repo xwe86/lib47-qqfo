@@ -2,6 +2,7 @@ package cn.kizzzy.vfs.tree;
 
 import cn.kizzzy.qqfo.PkgFile;
 import cn.kizzzy.qqfo.PkgFileItem;
+import cn.kizzzy.vfs.ITree;
 import cn.kizzzy.vfs.Separator;
 
 public class QqfoTreeBuilder extends TreeBuilder<PkgFileItem> {
@@ -14,12 +15,12 @@ public class QqfoTreeBuilder extends TreeBuilder<PkgFileItem> {
     }
     
     @Override
-    public Root<PkgFileItem> build() {
+    public ITree<PkgFileItem> build() {
         Root<PkgFileItem> root = new Root<>(idGenerator.getId(), pkgFile.path);
         for (PkgFileItem item : pkgFile.fileKvs.values()) {
             listImpl(root, root, item);
         }
-        return root;
+        return new Tree<>(root, separator);
     }
     
     private void listImpl(Root<PkgFileItem> root, Node<PkgFileItem> parent, PkgFileItem item) {
