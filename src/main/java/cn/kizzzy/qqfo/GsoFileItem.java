@@ -1,9 +1,8 @@
 package cn.kizzzy.qqfo;
 
-import cn.kizzzy.io.SubStream;
 import cn.kizzzy.vfs.IStreamable;
-
-import java.io.InputStream;
+import cn.kizzzy.io.FullyReader;
+import cn.kizzzy.io.SliceFullReader;
 
 public class GsoFileItem implements IStreamable {
     
@@ -27,34 +26,11 @@ public class GsoFileItem implements IStreamable {
     
     public int final03;
     
-    /**
-     *
-     */
     public int i;
-    
-    /**
-     *
-     */
     public int j;
-    
-    /**
-     *
-     */
     public boolean valid;
-    
-    /**
-     *
-     */
     public GsoFile file;
-    
-    /**
-     *
-     */
-    public int offset;
-    
-    /**
-     *
-     */
+    public long offset;
     public int size;
     
     @Override
@@ -68,11 +44,11 @@ public class GsoFileItem implements IStreamable {
     }
     
     @Override
-    public InputStream OpenStream() throws Exception {
+    public FullyReader OpenStream() throws Exception {
         if (getSource() == null) {
             throw new NullPointerException("source is null");
         }
-        return new SubStream(getSource().OpenStream(), offset, size);
+        return new SliceFullReader(getSource().OpenStream(), offset, size);
     }
     
     @Override

@@ -8,10 +8,10 @@ import cn.kizzzy.vfs.IStrategy;
 import cn.kizzzy.vfs.IStreamable;
 import cn.kizzzy.vfs.ITree;
 import cn.kizzzy.vfs.handler.GsoFileHandler;
+import cn.kizzzy.io.FullyReader;
 import cn.kizzzy.vfs.streamable.FileStreamable;
 import cn.kizzzy.vfs.tree.Leaf;
 
-import java.io.InputStream;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
@@ -57,8 +57,8 @@ public class QqfoPackage extends PackageAdapter {
             file.setSource(new FileStreamable(fullPath.toString()));
         }
         
-        try (InputStream stream = file.OpenStream()) {
-            Object obj = loader.load(this, path, stream, file.originSize);
+        try (FullyReader reader = file.OpenStream()) {
+            Object obj = loader.load(this, path, reader, file.originSize);
             if (obj instanceof IStreamable) {
                 ((IStreamable) obj).setSource(file);
             }

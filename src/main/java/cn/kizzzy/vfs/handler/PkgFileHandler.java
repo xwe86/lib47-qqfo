@@ -1,15 +1,15 @@
 package cn.kizzzy.vfs.handler;
 
 import cn.kizzzy.io.DataOutputStreamEx;
-import cn.kizzzy.io.SubStream;
 import cn.kizzzy.qqfo.PkgFile;
 import cn.kizzzy.qqfo.PkgFileItem;
 import cn.kizzzy.vfs.IPackage;
+import cn.kizzzy.io.FullyReader;
 
 public class PkgFileHandler extends StreamFileHandler<PkgFile> {
     
     @Override
-    protected PkgFile loadImpl(IPackage pack, String path, SubStream reader) throws Exception {
+    protected PkgFile loadImpl(IPackage pack, String path, FullyReader reader) throws Exception {
         PkgFile pkg = new PkgFile(path);
         pkg.magic = reader.readIntEx();
         pkg.indexCount = reader.readUnsignedIntEx();
@@ -21,6 +21,7 @@ public class PkgFileHandler extends StreamFileHandler<PkgFile> {
         for (int i = 0; i < pkg.indexCount; ++i) {
             PkgFileItem file = new PkgFileItem();
             file.pkg = pkg.path;
+            
             file.nameLength = reader.readUnsignedShortEx();
             file.path = reader.readString(file.nameLength).toLowerCase();
             file.reserved = reader.readIntEx();

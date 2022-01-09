@@ -2,20 +2,19 @@ package cn.kizzzy.vfs.handler;
 
 import cn.kizzzy.helper.LogHelper;
 import cn.kizzzy.io.DataOutputStreamEx;
-import cn.kizzzy.io.SubStream;
 import cn.kizzzy.qqfo.GsoFile;
 import cn.kizzzy.qqfo.GsoFileItem;
 import cn.kizzzy.qqfo.GsoFileItems;
 import cn.kizzzy.vfs.IPackage;
+import cn.kizzzy.io.FullyReader;
+import cn.kizzzy.io.SeekType;
 
 public class GsoFileHandler extends ImageFileHandler<GsoFile> {
     
     @Override
-    protected GsoFile loadImpl(IPackage pack, String path, SubStream reader) throws Exception {
+    protected GsoFile loadImpl(IPackage pack, String path, FullyReader reader) throws Exception {
         GsoFile file = null;
         try {
-            long start = reader.getPosition();
-            
             file = new GsoFile();
             file.magic_01 = reader.readIntEx();
             file.magic_02 = reader.readIntEx();
@@ -79,10 +78,10 @@ public class GsoFileHandler extends ImageFileHandler<GsoFile> {
                     
                     IReadParam param = readParamKvs.get(item.type);
                     if (item.valid && param != null) {
-                        item.offset = (int) (reader.getPosition() - start);
+                        item.offset = reader.position();
                         item.size = param.Calc(item.width, item.height);
                         
-                        reader.skip(param.Calc(item.width, item.height));
+                        reader.seek(item.size, SeekType.CURRENT);
                         
                         if (file.major == 3) {
                             item.centerX = reader.readIntEx();
