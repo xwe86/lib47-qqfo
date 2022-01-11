@@ -1,30 +1,22 @@
 package cn.kizzzy.vfs.pack;
 
+import cn.kizzzy.io.FullyReader;
 import cn.kizzzy.qqfo.GsoFile;
 import cn.kizzzy.qqfo.PkgFileItem;
 import cn.kizzzy.vfs.IFileLoader;
 import cn.kizzzy.vfs.IFileSaver;
-import cn.kizzzy.vfs.IStrategy;
 import cn.kizzzy.vfs.IStreamable;
 import cn.kizzzy.vfs.ITree;
 import cn.kizzzy.vfs.handler.GsoFileHandler;
-import cn.kizzzy.io.FullyReader;
 import cn.kizzzy.vfs.streamable.FileStreamable;
 import cn.kizzzy.vfs.tree.Leaf;
-
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
 public class QqfoPackage extends PackageAdapter {
     
     private final ITree<PkgFileItem> tree;
     
     public QqfoPackage(String root, ITree<PkgFileItem> tree) {
-        this(root, tree, null);
-    }
-    
-    public QqfoPackage(String root, ITree<PkgFileItem> tree, IStrategy<String, Object> strategy) {
-        super(root, '\\', strategy);
+        super(root);
         this.tree = tree;
     }
     
@@ -52,9 +44,9 @@ public class QqfoPackage extends PackageAdapter {
             return null;
         }
         
-        Path fullPath = Paths.get(root, file.pkg);
+        String fullPath = FILE_SEPARATOR.combine(root, file.pkg);
         if (file.getSource() == null) {
-            file.setSource(new FileStreamable(fullPath.toString()));
+            file.setSource(new FileStreamable(fullPath));
         }
         
         try (FullyReader reader = file.OpenStream()) {
