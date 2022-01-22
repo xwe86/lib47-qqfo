@@ -33,7 +33,7 @@ public class ListPkgTest {
             return;
         }
         
-        ITree<PkgFileItem> tree = new QqfoTreeBuilder(pkgFile, new IdGenerator()).build();
+        ITree tree = new QqfoTreeBuilder(pkgFile, new IdGenerator()).build();
         
         String[] paths = new String[]{
             "",
@@ -47,11 +47,11 @@ public class ListPkgTest {
         }
     }
     
-    private static void listNodeImpl(ITree<PkgFileItem> tree, String path) {
-        List<Node<PkgFileItem>> list = tree.listNode(path);
-        list.sort(new NodeComparator<>());
+    private static void listNodeImpl(ITree tree, String path) {
+        List<Node> list = tree.listNode(path);
+        list.sort(new NodeComparator());
         System.out.printf("path: %-32s, node count: %4d, list:", path, list.size());
-        for (Node<PkgFileItem> item : list) {
+        for (Node item : list) {
             System.out.print(" " + item.name);
         }
         System.out.println();

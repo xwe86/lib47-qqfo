@@ -11,13 +11,10 @@ import cn.kizzzy.vfs.handler.GsoFileHandler;
 import cn.kizzzy.vfs.streamable.FileStreamable;
 import cn.kizzzy.vfs.tree.Leaf;
 
-public class QqfoPackage extends PackageAdapter {
+public class QqfoPackage extends AbstractPackage {
     
-    private final ITree<PkgFileItem> tree;
-    
-    public QqfoPackage(String root, ITree<PkgFileItem> tree) {
-        super(root);
-        this.tree = tree;
+    public QqfoPackage(String root, ITree tree) {
+        super(root, tree);
     }
     
     @Override
@@ -34,15 +31,12 @@ public class QqfoPackage extends PackageAdapter {
     
     @Override
     protected Object loadImpl(String path, IFileLoader<?> loader) throws Exception {
-        Leaf<PkgFileItem> leaf = tree.getLeaf(path);
-        if (leaf == null) {
+        Leaf leaf = tree.getLeaf(path);
+        if (leaf == null || !(leaf.item instanceof PkgFileItem)) {
             return null;
         }
         
-        PkgFileItem file = leaf.item;
-        if (file == null) {
-            return null;
-        }
+        PkgFileItem file = (PkgFileItem) leaf.item;
         
         String fullPath = FILE_SEPARATOR.combine(root, file.pkg);
         if (file.getSource() == null) {

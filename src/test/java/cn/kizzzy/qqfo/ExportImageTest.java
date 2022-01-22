@@ -37,19 +37,19 @@ public class ExportImageTest {
             return;
         }
         
-        ITree<PkgFileItem> tree = new QqfoTreeBuilder(pkgFile, new IdGenerator()).build();
+        ITree tree = new QqfoTreeBuilder(pkgFile, new IdGenerator()).build();
         
         IPackage qqfoVfs = new QqfoPackage(dataRoot, tree);
         
-        List<Node<PkgFileItem>> nodes = tree.listNode("object/cc");
-        for (Node<PkgFileItem> node : nodes) {
+        List<Node> nodes = tree.listNode("object/cc");
+        for (Node node : nodes) {
             listNodeImpl(node, qqfoVfs, exportVfs);
         }
     }
     
-    private static void listNodeImpl(Node<PkgFileItem> node, IPackage qqfoVfs, IPackage exportVfs) {
+    private static void listNodeImpl(Node node, IPackage qqfoVfs, IPackage exportVfs) {
         if (node.leaf) {
-            Leaf<PkgFileItem> leaf = (Leaf<PkgFileItem>) node;
+            Leaf leaf = (Leaf) node;
             if (leaf.path.contains(".gso")) {
                 System.out.println("export: " + leaf.path);
                 
@@ -69,10 +69,10 @@ public class ExportImageTest {
                 }
             }
         } else {
-            List<Node<PkgFileItem>> list = new LinkedList<>(node.children.values());
-            list.sort(new NodeComparator<>());
+            List<Node> list = new LinkedList<>(node.children.values());
+            list.sort(new NodeComparator());
             
-            for (Node<PkgFileItem> child : list) {
+            for (Node child : list) {
                 listNodeImpl(child, qqfoVfs, exportVfs);
             }
         }
