@@ -1,12 +1,14 @@
 package cn.kizzzy.vfs.pack;
 
 import cn.kizzzy.io.FullyReader;
+import cn.kizzzy.qqfo.GsnFile;
 import cn.kizzzy.qqfo.GsoFile;
 import cn.kizzzy.qqfo.PkgFileItem;
 import cn.kizzzy.vfs.IFileLoader;
 import cn.kizzzy.vfs.IFileSaver;
 import cn.kizzzy.vfs.IStreamable;
 import cn.kizzzy.vfs.ITree;
+import cn.kizzzy.vfs.handler.GsnFileHandler;
 import cn.kizzzy.vfs.handler.GsoFileHandler;
 import cn.kizzzy.vfs.streamable.FileStreamable;
 import cn.kizzzy.vfs.tree.Leaf;
@@ -22,6 +24,7 @@ public class QqfoPackage extends AbstractPackage {
         super.initDefaultHandler();
         
         handlerKvs.put(GsoFile.class, new GsoFileHandler());
+        handlerKvs.put(GsnFile.class, new GsnFileHandler());
     }
     
     @Override

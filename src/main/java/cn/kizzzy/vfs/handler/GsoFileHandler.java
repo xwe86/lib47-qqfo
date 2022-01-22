@@ -1,13 +1,14 @@
 package cn.kizzzy.vfs.handler;
 
 import cn.kizzzy.helper.LogHelper;
+import cn.kizzzy.image.sizer.SizerHelper;
 import cn.kizzzy.io.DataOutputStreamEx;
+import cn.kizzzy.io.FullyReader;
+import cn.kizzzy.io.SeekType;
 import cn.kizzzy.qqfo.GsoFile;
 import cn.kizzzy.qqfo.GsoFileItem;
 import cn.kizzzy.qqfo.GsoFileItems;
 import cn.kizzzy.vfs.IPackage;
-import cn.kizzzy.io.FullyReader;
-import cn.kizzzy.io.SeekType;
 
 public class GsoFileHandler extends ImageFileHandler<GsoFile> {
     
@@ -76,10 +77,9 @@ public class GsoFileHandler extends ImageFileHandler<GsoFile> {
                     item.type = reader.readIntEx();
                     item.valid = checkValid(item.width, item.height);
                     
-                    IReadParam param = readParamKvs.get(item.type);
-                    if (item.valid && param != null) {
+                    if (item.valid) {
                         item.offset = reader.position();
-                        item.size = param.Calc(item.width, item.height);
+                        item.size = SizerHelper.calc(item.type, item.width, item.height);
                         
                         reader.seek(item.size, SeekType.CURRENT);
                         

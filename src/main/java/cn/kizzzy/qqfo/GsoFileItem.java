@@ -1,8 +1,8 @@
 package cn.kizzzy.qqfo;
 
-import cn.kizzzy.vfs.IStreamable;
 import cn.kizzzy.io.FullyReader;
 import cn.kizzzy.io.SliceFullReader;
+import cn.kizzzy.vfs.IStreamable;
 
 public class GsoFileItem implements IStreamable {
     
@@ -29,6 +29,7 @@ public class GsoFileItem implements IStreamable {
     public int i;
     public int j;
     public boolean valid;
+    
     public GsoFile file;
     public long offset;
     public int size;
