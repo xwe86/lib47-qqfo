@@ -1,10 +1,12 @@
 package cn.kizzzy.vfs.handler;
 
 import cn.kizzzy.io.DataOutputStreamEx;
+import cn.kizzzy.io.FullyReader;
 import cn.kizzzy.qqfo.PkgFile;
 import cn.kizzzy.qqfo.PkgFileItem;
 import cn.kizzzy.vfs.IPackage;
-import cn.kizzzy.io.FullyReader;
+
+import java.nio.charset.Charset;
 
 public class PkgFileHandler extends StreamFileHandler<PkgFile> {
     
@@ -23,7 +25,7 @@ public class PkgFileHandler extends StreamFileHandler<PkgFile> {
             file.pkg = pkg.path;
             
             file.nameLength = reader.readUnsignedShortEx();
-            file.path = reader.readString(file.nameLength).toLowerCase();
+            file.path = reader.readString(file.nameLength, Charset.forName("GB2312")).toLowerCase();
             file.reserved = reader.readIntEx();
             file.offset = reader.readUnsignedIntEx();
             file.originSize = reader.readIntEx();
