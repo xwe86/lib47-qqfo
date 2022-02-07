@@ -2,17 +2,18 @@ package cn.kizzzy.qqfo;
 
 import cn.kizzzy.helper.LogHelper;
 import cn.kizzzy.qqfo.helper.QqfoImgHelper;
+import cn.kizzzy.tencent.IdxFile;
 import cn.kizzzy.vfs.IPackage;
 import cn.kizzzy.vfs.ITree;
 import cn.kizzzy.vfs.handler.BufferedImageHandler;
-import cn.kizzzy.vfs.handler.PkgFileHandler;
+import cn.kizzzy.vfs.handler.IdxFileHandler;
 import cn.kizzzy.vfs.pack.FilePackage;
 import cn.kizzzy.vfs.pack.QqfoPackage;
 import cn.kizzzy.vfs.tree.IdGenerator;
+import cn.kizzzy.vfs.tree.IdxTreeBuilder;
 import cn.kizzzy.vfs.tree.Leaf;
 import cn.kizzzy.vfs.tree.Node;
 import cn.kizzzy.vfs.tree.NodeComparator;
-import cn.kizzzy.vfs.tree.QqfoTreeBuilder;
 
 import java.awt.image.BufferedImage;
 import java.util.LinkedList;
@@ -29,15 +30,15 @@ public class ExportImageTest {
         exportVfs.getHandlerKvs().put(BufferedImage.class, new BufferedImageHandler());
         
         IPackage dataVfs = new FilePackage(dataRoot);
-        dataVfs.getHandlerKvs().put(PkgFile.class, new PkgFileHandler());
+        dataVfs.getHandlerKvs().put(IdxFile.class, new IdxFileHandler());
         
-        PkgFile pkgFile = dataVfs.load(pkgName + ".pkg", PkgFile.class);
+        IdxFile pkgFile = dataVfs.load(pkgName + ".pkg", IdxFile.class);
         if (pkgFile == null) {
             LogHelper.error("load pkg failed: {}", pkgName);
             return;
         }
         
-        ITree tree = new QqfoTreeBuilder(pkgFile, new IdGenerator()).build();
+        ITree tree = new IdxTreeBuilder(pkgFile, new IdGenerator()).build();
         
         IPackage qqfoVfs = new QqfoPackage(dataRoot, tree);
         
