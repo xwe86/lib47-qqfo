@@ -1,14 +1,37 @@
 package cn.kizzzy.qqfo;
 
+import cn.kizzzy.io.FullyReader;
+import cn.kizzzy.io.SliceFullReader;
 import cn.kizzzy.vfs.IStreamable;
 
-public interface GsnFrame extends IStreamable {
+public class GsnFrame implements IStreamable {
     
-    int getWidth();
+    public int width;
+    public int height;
+    public int type;
     
-    int getHeight();
+    public int index;
+    public boolean valid;
     
-    int getType();
+    public GsnFile file;
+    public long offset;
+    public int size;
     
-    boolean isValid();
+    @Override
+    public IStreamable getSource() {
+        return file;
+    }
+    
+    @Override
+    public void setSource(IStreamable source) {
+        this.file = (GsnFile) source;
+    }
+    
+    @Override
+    public FullyReader OpenStream() throws Exception {
+        if (getSource() == null) {
+            throw new NullPointerException("source is null");
+        }
+        return new SliceFullReader(getSource().OpenStream(), offset, size);
+    }
 }
