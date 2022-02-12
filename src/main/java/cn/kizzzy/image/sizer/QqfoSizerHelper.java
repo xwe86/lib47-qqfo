@@ -5,7 +5,7 @@ import cn.kizzzy.image.Sizer;
 import java.util.HashMap;
 import java.util.Map;
 
-public class SizerHelper {
+public class QqfoSizerHelper {
     
     protected static final Map<Integer, Sizer> sizerKvs;
     

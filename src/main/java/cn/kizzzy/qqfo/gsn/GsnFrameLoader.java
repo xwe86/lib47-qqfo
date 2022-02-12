@@ -11,8 +11,4 @@ public interface GsnFrameLoader {
     void loadHeader(IFullyReader reader, GsnFile file) throws IOException;
     
     GsnFrame loadFrame(IFullyReader reader, GsnFile file, int index) throws IOException;
-    
-    default boolean checkValid(int width, int height) {
-        return width > 0 && width < 4096 && height > 0 && height < 4096;
-    }
 }

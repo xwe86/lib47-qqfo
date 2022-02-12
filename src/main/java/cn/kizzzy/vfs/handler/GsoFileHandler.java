@@ -1,7 +1,7 @@
 package cn.kizzzy.vfs.handler;
 
 import cn.kizzzy.helper.LogHelper;
-import cn.kizzzy.image.sizer.SizerHelper;
+import cn.kizzzy.image.sizer.QqfoSizerHelper;
 import cn.kizzzy.io.DataOutputStreamEx;
 import cn.kizzzy.io.FullyReader;
 import cn.kizzzy.io.SeekType;
@@ -10,7 +10,7 @@ import cn.kizzzy.qqfo.GsoFileItem;
 import cn.kizzzy.qqfo.GsoFileItems;
 import cn.kizzzy.vfs.IPackage;
 
-public class GsoFileHandler extends ImageFileHandler<GsoFile> {
+public class GsoFileHandler extends StreamFileHandler<GsoFile> {
     
     @Override
     protected GsoFile loadImpl(IPackage pack, String path, FullyReader reader) throws Exception {
@@ -75,19 +75,19 @@ public class GsoFileHandler extends ImageFileHandler<GsoFile> {
                     item.height = reader.readIntEx();
                     item.reserved06 = reader.readIntEx();
                     item.type = reader.readIntEx();
-                    item.valid = checkValid(item.width, item.height);
                     
-                    if (item.valid) {
-                        item.offset = reader.position();
-                        item.size = SizerHelper.calc(item.type, item.width, item.height);
-                        
-                        reader.seek(item.size, SeekType.CURRENT);
-                        
-                        if (file.major == 3) {
-                            item.centerX = reader.readIntEx();
-                            item.centerY = reader.readIntEx();
-                            item.final03 = reader.readIntEx();
-                        }
+                    item.valid = 0 < item.width && item.width < 4096
+                        && 0 < item.height && item.height < 4096;
+                    
+                    item.offset = reader.position();
+                    item.size = QqfoSizerHelper.calc(item.type, item.width, item.height);
+                    
+                    reader.seek(item.size, SeekType.CURRENT);
+                    
+                    if (file.major == 3) {
+                        item.centerX = reader.readIntEx();
+                        item.centerY = reader.readIntEx();
+                        item.final03 = reader.readIntEx();
                     }
                     
                     items.items[j] = item;

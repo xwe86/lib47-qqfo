@@ -1,6 +1,6 @@
 package cn.kizzzy.qqfo.gsn;
 
-import cn.kizzzy.image.sizer.SizerHelper;
+import cn.kizzzy.image.sizer.QqfoSizerHelper;
 import cn.kizzzy.io.IFullyReader;
 import cn.kizzzy.io.SeekType;
 import cn.kizzzy.qqfo.GsnFile;
@@ -37,14 +37,14 @@ public class GsnFrameV2Loader implements GsnFrameLoader {
         frame.height = reader.readIntEx();
         frame.reserved_15 = reader.readIntEx();
         frame.type = reader.readIntEx();
-        frame.valid = checkValid(frame.width, frame.height);
         
-        if (frame.valid) {
-            frame.offset = reader.position();
-            frame.size = SizerHelper.calc(frame.type, frame.width, frame.height);
-            
-            reader.seek(frame.size, SeekType.CURRENT);
-        }
+        frame.valid = 0 < frame.width && frame.width < 4096
+            && 0 < frame.height && frame.height < 4096;
+        
+        frame.offset = reader.position();
+        frame.size = QqfoSizerHelper.calc(frame.type, frame.width, frame.height);
+        
+        reader.seek(frame.size, SeekType.CURRENT);
         
         frame.final_01 = reader.readIntEx();
         frame.final_02 = reader.readIntEx();
