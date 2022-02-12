@@ -15,8 +15,8 @@ public class QqfoSizerHelper {
         sizerKvs.put(1, new ARGBSizer(2));
         sizerKvs.put(2, new ARGBSizer(4));
         sizerKvs.put(3, new DxtSizer(2));
-        sizerKvs.put(4, new DxtSizer(4));
-        sizerKvs.put(5, new DxtSizer(4));
+        sizerKvs.put(4, new DxtSizer(1));
+        sizerKvs.put(5, new DxtSizer(1));
     }
     
     public static int calc(int type, int width, int height) {
