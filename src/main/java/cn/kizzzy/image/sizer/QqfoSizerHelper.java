@@ -11,12 +11,12 @@ public class QqfoSizerHelper {
     
     static {
         sizerKvs = new HashMap<>();
-        sizerKvs.put(0, new ARGBSizer(2));
-        sizerKvs.put(1, new ARGBSizer(2));
-        sizerKvs.put(2, new ARGBSizer(4));
-        sizerKvs.put(3, new DxtSizer(2));
-        sizerKvs.put(4, new DxtSizer(1));
-        sizerKvs.put(5, new DxtSizer(1));
+        sizerKvs.put(0, new ARGB1555Sizer());
+        sizerKvs.put(1, new ARGB4444Sizer());
+        sizerKvs.put(2, new ARGB8888Sizer());
+        sizerKvs.put(3, new Dxt1Sizer());
+        sizerKvs.put(4, new Dxt3Sizer());
+        sizerKvs.put(5, new Dxt5Sizer());
     }
     
     public static int calc(int type, int width, int height) {
